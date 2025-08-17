@@ -1,0 +1,44 @@
+<div class="auth-page">
+	<div class="auth-card">
+		<div class="brand">AdminWeb</div>
+		<h2>Crear cuenta</h2>
+		<form [formGroup]="form" (ngSubmit)="register()" class="auth-form">
+			<div class="field">
+				<label>Nombre</label>
+				<input type="text" formControlName="name" placeholder="Tu nombre" />
+				<small class="error" *ngIf="name?.invalid && name?.touched">El nombre es requerido</small>
+			</div>
+			<div class="field">
+				<label>Email</label>
+				<input type="email" formControlName="email" placeholder="tu@correo.com" />
+				<small class="error" *ngIf="email?.invalid && email?.touched">Email inválido</small>
+			</div>
+
+			<div class="field">
+				<label>Contraseña</label>
+				<input type="password" formControlName="password" placeholder="Mínimo 6 caracteres" />
+				<small class="error" *ngIf="password?.invalid && password?.touched">Contraseña mínima 6 caracteres</small>
+			</div>
+
+			<button class="btn-primary" type="submit" [disabled]="form.invalid">Crear cuenta</button>
+		</form>
+
+		<div class="auth-footer">
+			<a routerLink="/login">¿Ya tienes cuenta? Inicia sesión</a>
+		</div>
+
+		<div *ngIf="error" class="error-box">{{ error }}</div>
+
+		<!-- Modal de éxito -->
+		<div *ngIf="success" class="modal-overlay">
+			<div class="modal">
+				<h3>Registro exitoso</h3>
+				<p>Tu cuenta se creó correctamente. Ahora puedes iniciar sesión.</p>
+				<div class="modal-actions">
+					<a class="btn-primary" routerLink="/login">Ir a Login</a>
+					<button class="btn-secondary" (click)="success = false">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

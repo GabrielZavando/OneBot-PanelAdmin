@@ -1,0 +1,28 @@
+<div class="auth-page">
+	<div class="auth-card">
+		<div class="brand">AdminWeb</div>
+		<h2>Iniciar sesión</h2>
+		<form [formGroup]="form" (ngSubmit)="login()" class="auth-form">
+					<div class="field">
+						<label>Email</label>
+						<input type="email" formControlName="email" placeholder="tu@correo.com" />
+						<small class="error" *ngIf="email?.invalid && email?.touched">Email inválido</small>
+					</div>
+
+					<div class="field">
+						<label>Contraseña</label>
+						<input type="password" formControlName="password" placeholder="Mínimo 6 caracteres" />
+						<small class="error" *ngIf="password?.invalid && password?.touched">Contraseña mínima 6 caracteres</small>
+					</div>
+
+			<button class="btn-primary" type="submit" [disabled]="form.invalid">Ingresar</button>
+		</form>
+
+		<div class="auth-footer">
+			<a routerLink="/register">Crear una cuenta</a>
+		</div>
+
+		<div *ngIf="error" class="error-box">{{ error }}</div>
+		<div *ngIf="success" class="success-box">¡Login exitoso!</div>
+	</div>
+</div>
