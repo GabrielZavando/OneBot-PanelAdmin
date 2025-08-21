@@ -3,7 +3,7 @@ import { Component, Injector, runInInjectionContext } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { updateProfile, getIdToken } from 'firebase/auth';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 

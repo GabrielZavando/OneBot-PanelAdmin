@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, Injector, runInInjectionContext } from
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Auth } from '@angular/fire/auth';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-header',

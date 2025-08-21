@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Output, Injector, runInInjectionContext } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Auth, signOut } from '@angular/fire/auth';
-import { AuthService } from '../services/auth.service';
+import { Auth } from '@angular/fire/auth';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -29,5 +29,4 @@ export class Header {
   get currentUser() {
     return this.authService.getCurrentUser();
   }
-
 }
