@@ -3,6 +3,7 @@ import { Component, Injector, runInInjectionContext } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { updateProfile, getIdToken } from 'firebase/auth';
+import { environment } from '../../environments/environment';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -17,6 +18,7 @@ export class Register {
   form: FormGroup;
   error: string | null = null;
   success: boolean = false;
+  private isSubmitting = false;
 
   constructor(private fb: FormBuilder, private auth: Auth, private injector: Injector) {
     this.form = this.fb.group({
@@ -27,6 +29,8 @@ export class Register {
   }
 
   async register() {
+    if (this.isSubmitting || this.form.invalid) return;
+    this.isSubmitting = true;
     this.error = null;
     this.success = false;
     const { name, email, password } = this.form.value;
@@ -52,7 +56,8 @@ export class Register {
             displayName: name
           };
 
-          const res = await fetch('http://localhost:3000/auth/register', {
+          const url = `${environment.apiBaseUrl.replace(/\/$/, '')}/auth/register`;
+          const res = await fetch(url, {
             method: 'POST',
             headers: {
               'Authorization': `Bearer ${idToken}`,
@@ -72,6 +77,9 @@ export class Register {
       this.form.reset();
     } catch (err: any) {
       this.error = err.message || String(err);
+      console.error('Register error:', err);
+    } finally {
+      this.isSubmitting = false;
     }
   }
 

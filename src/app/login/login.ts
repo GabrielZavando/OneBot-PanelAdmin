@@ -1,9 +1,11 @@
 
-import { Component } from '@angular/core';
+import { Component, Injector, runInInjectionContext } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { getIdToken } from 'firebase/auth';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +19,13 @@ export class Login {
   error: string | null = null;
   success: boolean = false;
 
-  constructor(private fb: FormBuilder, private auth: Auth) {
+  constructor(
+    private fb: FormBuilder, 
+    private auth: Auth, 
+    private router: Router,
+    private authService: AuthService,
+    private injector: Injector
+  ) {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -28,10 +36,35 @@ export class Login {
     this.error = null;
     this.success = false;
     const { email, password } = this.form.value;
+    
     try {
-      await signInWithEmailAndPassword(this.auth, email, password);
-      this.success = true;
-      this.form.reset();
+      // Ejecutar llamadas a Firebase dentro del contexto de inyección de Angular
+      await runInInjectionContext(this.injector, async () => {
+        const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
+        const user = userCredential.user;
+        
+        // Obtener el ID token para almacenar en localStorage
+        const idToken = await getIdToken(user);
+        
+        // Crear objeto de sesión
+        const sessionData = {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          idToken: idToken,
+          loginTime: new Date().toISOString()
+        };
+        
+        // Usar el servicio de autenticación para almacenar la sesión
+        this.authService.setUserSession(sessionData);
+        
+        this.success = true;
+        this.form.reset();
+        
+        // Navegar inmediatamente al dashboard
+        this.router.navigate(['/dashboard']);
+      });
+      
     } catch (err: any) {
       this.error = err.message;
     }

@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
   firebase: {
     apiKey: "AIzaSyBCAhxBCoc1_OXfpsddBmbfx-EZpM4rwek",
     authDomain: "onebot-b04e2.firebaseapp.com",
@@ -8,7 +8,6 @@ export const environment = {
     messagingSenderId: "371109272552",
     appId: "1:371109272552:web:f5ccdfca754e3b144ca25d"
   },
-  // URL del backend que verificará el ID token y registrará al usuario en la base de datos.
-  // Asumo localhost:3000 por defecto; cámbialo si tu API está en otra URL.
-  apiBaseUrl: 'http://localhost:3000/api/v1'
+  // Cambia esto por la URL real de tu API de producción
+  apiBaseUrl: 'https://api.onebot.example'
 };
