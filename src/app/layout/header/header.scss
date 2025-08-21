@@ -1,0 +1,20 @@
+.app-header {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 8px 12px;
+	border-bottom: 1px solid #eee;
+}
+
+.app-header nav {
+	display: flex;
+	gap: 8px;
+}
+
+.app-header a.active {
+	font-weight: 600;
+}
+
+.app-header .icon {
+	font-size: 18px;
+}

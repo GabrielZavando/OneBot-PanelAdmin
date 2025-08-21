@@ -24,11 +24,11 @@ export const routes: Routes = [
 		canActivate: [authGuard],
 		children: [
 			{ path: '', redirectTo: 'home', pathMatch: 'full' },
-			{ path: 'home', loadComponent: () => import('./home/home').then(m => m.Home) },
-			{ path: 'chatbots', loadComponent: () => import('./chatbots/chatbots').then(m => m.Chatbots) },
-			{ path: 'knowledge', loadComponent: () => import('./knowledge/knowledge').then(m => m.Knowledge) },
-			{ path: 'analytics', loadComponent: () => import('./analytics/analytics').then(m => m.Analytics) },
-			{ path: 'settings', loadComponent: () => import('./settings/settings').then(m => m.Settings) }
+			{ path: 'home', loadComponent: () => import('./main/home').then(m => m.Home) },
+			{ path: 'chatbots', loadComponent: () => import('./main/chatbots').then(m => m.Chatbots) },
+			{ path: 'knowledge', loadComponent: () => import('./main/knowledge').then(m => m.Knowledge) },
+			{ path: 'analytics', loadComponent: () => import('./main/analytics').then(m => m.Analytics) },
+			{ path: 'settings', loadComponent: () => import('./main/settings').then(m => m.Settings) }
 		]
 	}
 ];
