@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-chatbots',
+  selector: 'app-settings',
   standalone: true,
   imports: [CommonModule],
-  template: `<h2>Chatbots</h2><p>Administra tus chatbots e instrucciones.</p>`
+  templateUrl: './settings.component.html',
+  styleUrl: './settings.component.css'
 })
-export class Chatbots {}
+export class Settings {}

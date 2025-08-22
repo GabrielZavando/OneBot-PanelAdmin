@@ -1,0 +1,6 @@
+/* Estilos del componente principal de la aplicación */
+app-root {
+  display: block;
+  width: 100%;
+  height: 100vh;
+}

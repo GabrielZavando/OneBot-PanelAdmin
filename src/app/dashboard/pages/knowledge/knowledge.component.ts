@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-settings',
+  selector: 'app-knowledge',
   standalone: true,
   imports: [CommonModule],
-  template: `<h2>Configuración</h2><p>Ajustes de la plataforma.</p>`
+  templateUrl: './knowledge.component.html',
+  styleUrl: './knowledge.component.css'
 })
-export class Settings {}
+export class Knowledge {}

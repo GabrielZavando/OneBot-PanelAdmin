@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-knowledge',
+  selector: 'app-home',
   standalone: true,
   imports: [CommonModule],
-  template: `<h2>Knowledge Base</h2><p>Sube archivos y gestiona colecciones.</p>`
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.css'
 })
-export class Knowledge {}
+export class Home {}

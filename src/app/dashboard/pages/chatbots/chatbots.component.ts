@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-analytics',
+  selector: 'app-chatbots',
   standalone: true,
   imports: [CommonModule],
-  template: `<h2>Analítica</h2><p>Gráficos y métricas de uso.</p>`
+  templateUrl: './chatbots.component.html',
+  styleUrl: './chatbots.component.css'
 })
-export class Analytics {}
+export class Chatbots {}

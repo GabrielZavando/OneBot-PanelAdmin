@@ -1,0 +1,123 @@
+.sidebar {
+  width: 288px;
+  height: 100vh;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  border-right: 1px solid #475569;
+  display: flex;
+  flex-direction: column;
+  color: #e2e8f0;
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease-in-out;
+}
+
+.sidebar.closed {
+  width: 64px;
+}
+
+.sidebar.closed .sidebar-text {
+  opacity: 0;
+  display: none;
+}
+
+.sidebar.closed .sidebar-title {
+  opacity: 0;
+  font-size: 0.875rem;
+}
+
+.sidebar-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #475569;
+}
+
+.sidebar-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 1rem 0;
+}
+
+.sidebar-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sidebar-item {
+  margin: 0;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 0.875rem 1.5rem;
+  color: #cbd5e1;
+  text-decoration: none;
+  border-radius: 0;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  gap: 0.75rem;
+}
+
+.sidebar-link:hover {
+  background: rgba(148, 163, 184, 0.1);
+  color: #f8fafc;
+}
+
+.sidebar-link:hover .sidebar-icon svg {
+  transform: scale(1.1);
+}
+
+.sidebar-link.active {
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.1) 100%);
+  color: #60a5fa;
+  border-right: 3px solid #3b82f6;
+  font-weight: 600;
+}
+
+.sidebar-link.active .sidebar-icon svg {
+  color: #60a5fa;
+  stroke: #60a5fa;
+}
+
+.sidebar-icon {
+  flex-shrink: 0;
+}
+
+.sidebar-icon svg {
+  transition: all 0.2s ease-in-out;
+  color: currentColor;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+.sidebar-text {
+  font-size: 0.925rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 50;
+    transform: translateX(-100%);
+  }
+  
+  .sidebar:not(.closed) {
+    transform: translateX(0);
+  }
+}
