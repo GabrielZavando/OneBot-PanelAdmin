@@ -1,0 +1,665 @@
+<div class="p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-900">Chatbots</h2>
+    <button 
+      (click)="openCreateForm()"
+      class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+    >
+      <!-- Heroicon: plus -->
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+      </svg>
+      Nuevo Chatbot
+    </button>
+  </div>
+  
+  <p class="text-gray-600 mb-6">Administra tus chatbots y configura sus widgets embebibles.</p>
+  
+  @if (isLoadingChatbots) {
+    <!-- Loading state -->
+    <div class="flex justify-center items-center py-12">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+    </div>
+  } @else if (chatbots.length === 0) {
+    <!-- Empty state -->
+    <div class="text-center py-12">
+      <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      </svg>
+      <h3 class="text-lg font-medium text-gray-900 mb-2">No hay chatbots</h3>
+      <p class="text-gray-600 mb-4">Comienza creando tu primer chatbot</p>
+      <button 
+        (click)="openCreateForm()"
+        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+      >
+        Crear Primer Chatbot
+      </button>
+    </div>
+  } @else {
+    <!-- Chatbots grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (chatbot of chatbots; track chatbot.id) {
+        <div class="bg-white p-6 rounded-lg shadow hover:shadow-md transition-shadow border border-gray-200">
+          <!-- Header del chatbot -->
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center space-x-3">
+              @if (chatbot.avatarUrl) {
+                <img 
+                  [src]="chatbot.avatarUrl" 
+                  [alt]="chatbot.name"
+                  class="w-10 h-10 rounded-full object-cover"
+                >
+              } @else {
+                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                  <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                </div>
+              }
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900">{{ chatbot.name }}</h3>
+                <div class="flex items-center space-x-2 text-sm text-gray-500">
+                  <span class="px-2 py-1 rounded-full text-xs {{ getStatusColor(chatbot.status) }}">
+                    {{ getStatusLabel(chatbot.status) }}
+                  </span>
+                  <span>·</span>
+                  <span>{{ getProviderLabel(chatbot.llmProvider) }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Descripción -->
+          <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ chatbot.description }}</p>
+
+          <!-- Estadísticas -->
+          <div class="border-t border-gray-100 pt-4 mb-4">
+            <div class="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <span class="text-gray-500">Mensajes:</span>
+                <span class="font-medium text-gray-900 ml-1">{{ chatbot.messagesCount || 0 }}</span>
+              </div>
+              <div>
+                <span class="text-gray-500">Creado:</span>
+                <span class="font-medium text-gray-900 ml-1">{{ formatDate(chatbot.createdAt) }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botones de acción -->
+          <div class="flex space-x-2">
+            <button 
+              (click)="openWidgetConfig(chatbot)"
+              class="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-2 rounded text-sm font-medium transition-colors flex items-center justify-center gap-1"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              Widget
+            </button>
+            <button 
+              class="bg-gray-50 hover:bg-gray-100 text-gray-700 px-3 py-2 rounded text-sm font-medium transition-colors flex items-center justify-center gap-1"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+              Editar
+            </button>
+            <button 
+              (click)="deleteChatbot(chatbot)"
+              class="bg-red-50 hover:bg-red-100 text-red-700 px-3 py-2 rounded text-sm font-medium transition-colors flex items-center justify-center gap-1"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              Eliminar
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+<!-- Modal para crear chatbot -->
+@if (showCreateForm) {
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+  <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+    <!-- Header del modal -->
+    <div class="flex items-center justify-between p-6 border-b border-gray-200">
+      <h3 class="text-xl font-semibold text-gray-900">Crear Nuevo Chatbot</h3>
+      <button 
+        (click)="closeCreateForm()"
+        class="text-gray-400 hover:text-gray-600 transition-colors"
+      >
+        <!-- Heroicon: x-mark -->
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Formulario -->
+    <form [formGroup]="chatbotForm" (ngSubmit)="onSubmit()" class="p-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Información Básica -->
+        <div class="md:col-span-2">
+          <h4 class="text-lg font-medium text-gray-900 mb-4">Información Básica</h4>
+        </div>
+
+        <!-- Nombre -->
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
+            Nombre del Chatbot *
+          </label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            placeholder="Ej: Asistente de Ventas"
+          >
+          @if (getFieldError('name')) {
+            <span class="text-red-500 text-sm mt-1">
+              {{ getFieldError('name') }}
+            </span>
+          }
+        </div>
+
+        <!-- Avatar URL -->
+        <div>
+          <label for="avatarUrl" class="block text-sm font-medium text-gray-700 mb-2">
+            URL del Avatar
+          </label>
+          <input
+            type="url"
+            id="avatarUrl"
+            formControlName="avatarUrl"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            placeholder="https://example.com/avatar.png"
+          >
+        </div>
+
+        <!-- Descripción -->
+        <div class="md:col-span-2">
+          <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+            Descripción *
+          </label>
+          <textarea
+            id="description"
+            formControlName="description"
+            rows="3"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            placeholder="Describe la función principal de este chatbot..."
+          ></textarea>
+          @if (getFieldError('description')) {
+            <span class="text-red-500 text-sm mt-1">
+              {{ getFieldError('description') }}
+            </span>
+          }
+        </div>
+
+        <!-- System Prompt -->
+        <div class="md:col-span-2">
+          <label for="systemPrompt" class="block text-sm font-medium text-gray-700 mb-2">
+            Prompt del Sistema *
+          </label>
+          <textarea
+            id="systemPrompt"
+            formControlName="systemPrompt"
+            rows="4"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            placeholder="You are a helpful assistant specialized in..."
+          ></textarea>
+          @if (getFieldError('systemPrompt')) {
+            <span class="text-red-500 text-sm mt-1">
+              {{ getFieldError('systemPrompt') }}
+            </span>
+          }
+        </div>
+
+        <!-- Configuración LLM -->
+        <div class="md:col-span-2">
+          <h4 class="text-lg font-medium text-gray-900 mb-4 mt-6">Configuración del Modelo</h4>
+        </div>
+
+        <!-- Proveedor LLM -->
+        <div>
+          <label for="llmProvider" class="block text-sm font-medium text-gray-700 mb-2">
+            Proveedor LLM *
+          </label>
+          <select
+            id="llmProvider"
+            formControlName="llmProvider"
+            (change)="onProviderChange()"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+          >
+            <option value="openai">OpenAI</option>
+            <option value="gemini">Google Gemini</option>
+            <option value="anthropic">Anthropic Claude</option>
+          </select>
+        </div>
+
+        <!-- Campos específicos de OpenAI -->
+        @if (isOpenAI()) {
+          <!-- Modelo OpenAI -->
+          <div>
+            <label for="openaiModel" class="block text-sm font-medium text-gray-700 mb-2">
+              Modelo OpenAI *
+            </label>
+            <select
+              id="openaiModel"
+              formControlName="openaiModel"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors model-select"
+            >
+              <option value="gpt-5">GPT-5 — Última generación, multimodal, máximo rendimiento general</option>
+              <option value="gpt-4.1">GPT-4.1 — Potente, contexto extenso, balance costo/rendimiento</option>
+              <option value="gpt-4.1-mini">GPT-4.1 Mini — Versión liviana y económica, ideal para chatbots</option>
+              <option value="gpt-4.1-nano">GPT-4.1 Nano — Ultra-rápido y barato, tareas simples y móviles</option>
+              <option value="gpt-4o">GPT-4o — Multimodal (texto, imagen, voz), excelente para asistentes interactivos</option>
+              <option value="o3-pro">o3 Pro — Razonamiento avanzado, lógica compleja y paso a paso</option>
+              <option value="o3">o3 — Buen equilibrio en razonamiento y costo</option>
+              <option value="o3-mini">o3 Mini — Rápido y barato, razonamiento ligero</option>
+              <option value="o1-pro">o1 Pro — Primer modelo de razonamiento, más detallado y preciso</option>
+              <option value="o1-mini">o1 Mini — Versión más ligera del modelo de razonamiento</option>
+              <option value="o1-preview">o1 Preview — Versión preliminar de razonamiento (experimental)</option>
+            </select>
+          </div>
+
+          <!-- Temperature OpenAI -->
+          <div>
+            <label for="openaiTemperature" class="block text-sm font-medium text-gray-700 mb-2">
+              Temperature *
+            </label>
+            <input
+              type="number"
+              id="openaiTemperature"
+              formControlName="openaiTemperature"
+              min="0"
+              max="2"
+              step="0.1"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            >
+            @if (getFieldError('openaiTemperature')) {
+              <span class="text-red-500 text-sm mt-1">
+                {{ getFieldError('openaiTemperature') }}
+              </span>
+            }
+          </div>
+
+          <!-- Max Tokens OpenAI -->
+          <div>
+            <label for="openaiMaxTokens" class="block text-sm font-medium text-gray-700 mb-2">
+              Max Tokens *
+            </label>
+            <input
+              type="number"
+              id="openaiMaxTokens"
+              formControlName="openaiMaxTokens"
+              min="1"
+              max="4096"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            >
+            @if (getFieldError('openaiMaxTokens')) {
+              <span class="text-red-500 text-sm mt-1">
+                {{ getFieldError('openaiMaxTokens') }}
+              </span>
+            }
+          </div>
+
+          <!-- Top P OpenAI -->
+          <div>
+            <label for="openaiTopP" class="block text-sm font-medium text-gray-700 mb-2">
+              Top P *
+            </label>
+            <input
+              type="number"
+              id="openaiTopP"
+              formControlName="openaiTopP"
+              min="0"
+              max="1"
+              step="0.1"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            >
+            @if (getFieldError('openaiTopP')) {
+              <span class="text-red-500 text-sm mt-1">
+                {{ getFieldError('openaiTopP') }}
+              </span>
+            }
+          </div>
+
+          <!-- Opciones de Stream OpenAI -->
+          <div class="md:col-span-2">
+            <div class="flex items-center space-x-4">
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  formControlName="openaiStream"
+                  class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                >
+                <span class="ml-2 text-sm text-gray-700">Habilitar Stream</span>
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  formControlName="openaiIncludeUsage"
+                  class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                >
+                <span class="ml-2 text-sm text-gray-700">Incluir Usage</span>
+              </label>
+            </div>
+          </div>
+        }
+
+        <!-- Campos específicos de Gemini -->
+        @if (isGemini()) {
+          <!-- Modelo Gemini -->
+          <div>
+            <label for="geminiModel" class="block text-sm font-medium text-gray-700 mb-2">
+              Modelo Gemini *
+            </label>
+            <select
+              id="geminiModel"
+              formControlName="geminiModel"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            >
+              <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
+              <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+              <option value="gemini-pro">Gemini Pro</option>
+            </select>
+          </div>
+
+          <!-- Temperature Gemini -->
+          <div>
+            <label for="geminiTemperature" class="block text-sm font-medium text-gray-700 mb-2">
+              Temperature *
+            </label>
+            <input
+              type="number"
+              id="geminiTemperature"
+              formControlName="geminiTemperature"
+              min="0"
+              max="2"
+              step="0.1"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            >
+            @if (getFieldError('geminiTemperature')) {
+              <span class="text-red-500 text-sm mt-1">
+                {{ getFieldError('geminiTemperature') }}
+              </span>
+            }
+          </div>
+
+          <!-- Top K Gemini -->
+          <div>
+            <label for="geminiTopK" class="block text-sm font-medium text-gray-700 mb-2">
+              Top K *
+            </label>
+            <input
+              type="number"
+              id="geminiTopK"
+              formControlName="geminiTopK"
+              min="1"
+              max="100"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            >
+            @if (getFieldError('geminiTopK')) {
+              <span class="text-red-500 text-sm mt-1">
+                {{ getFieldError('geminiTopK') }}
+              </span>
+            }
+          </div>
+
+          <!-- Max Output Tokens Gemini -->
+          <div>
+            <label for="geminiMaxOutputTokens" class="block text-sm font-medium text-gray-700 mb-2">
+              Max Output Tokens *
+            </label>
+            <input
+              type="number"
+              id="geminiMaxOutputTokens"
+              formControlName="geminiMaxOutputTokens"
+              min="1"
+              max="8192"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            >
+            @if (getFieldError('geminiMaxOutputTokens')) {
+              <span class="text-red-500 text-sm mt-1">
+                {{ getFieldError('geminiMaxOutputTokens') }}
+              </span>
+            }
+          </div>
+
+          <!-- Response MIME Type Gemini -->
+          <div>
+            <label for="geminiResponseMimeType" class="block text-sm font-medium text-gray-700 mb-2">
+              Response MIME Type *
+            </label>
+            <select
+              id="geminiResponseMimeType"
+              formControlName="geminiResponseMimeType"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            >
+              <option value="application/json">application/json</option>
+              <option value="text/plain">text/plain</option>
+            </select>
+          </div>
+
+          <!-- Stream Gemini -->
+          <div>
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                formControlName="geminiStream"
+                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              >
+              <span class="ml-2 text-sm text-gray-700">Habilitar Stream</span>
+            </label>
+          </div>
+        }
+
+        <!-- Campos específicos de Anthropic -->
+        @if (isAnthropic()) {
+          <!-- Modelo Anthropic -->
+          <div>
+            <label for="anthropicModel" class="block text-sm font-medium text-gray-700 mb-2">
+              Modelo Claude *
+            </label>
+            <select
+              id="anthropicModel"
+              formControlName="anthropicModel"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            >
+              <option value="claude-3-5-sonnet-20240620">Claude 3.5 Sonnet</option>
+              <option value="claude-3-opus-20240229">Claude 3 Opus</option>
+              <option value="claude-3-sonnet-20240229">Claude 3 Sonnet</option>
+              <option value="claude-3-haiku-20240307">Claude 3 Haiku</option>
+            </select>
+          </div>
+
+          <!-- Temperature Anthropic -->
+          <div>
+            <label for="anthropicTemperature" class="block text-sm font-medium text-gray-700 mb-2">
+              Temperature *
+            </label>
+            <input
+              type="number"
+              id="anthropicTemperature"
+              formControlName="anthropicTemperature"
+              min="0"
+              max="1"
+              step="0.1"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            >
+            @if (getFieldError('anthropicTemperature')) {
+              <span class="text-red-500 text-sm mt-1">
+                {{ getFieldError('anthropicTemperature') }}
+              </span>
+            }
+          </div>
+
+          <!-- Max Tokens Anthropic -->
+          <div>
+            <label for="anthropicMaxTokens" class="block text-sm font-medium text-gray-700 mb-2">
+              Max Tokens *
+            </label>
+            <input
+              type="number"
+              id="anthropicMaxTokens"
+              formControlName="anthropicMaxTokens"
+              min="1"
+              max="4096"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            >
+            @if (getFieldError('anthropicMaxTokens')) {
+              <span class="text-red-500 text-sm mt-1">
+                {{ getFieldError('anthropicMaxTokens') }}
+              </span>
+            }
+          </div>
+
+          <!-- Top P Anthropic -->
+          <div>
+            <label for="anthropicTopP" class="block text-sm font-medium text-gray-700 mb-2">
+              Top P *
+            </label>
+            <input
+              type="number"
+              id="anthropicTopP"
+              formControlName="anthropicTopP"
+              min="0"
+              max="1"
+              step="0.1"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            >
+            @if (getFieldError('anthropicTopP')) {
+              <span class="text-red-500 text-sm mt-1">
+                {{ getFieldError('anthropicTopP') }}
+              </span>
+            }
+          </div>
+
+          <!-- Stream Anthropic -->
+          <div>
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                formControlName="anthropicStream"
+                class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              >
+              <span class="ml-2 text-sm text-gray-700">Habilitar Stream</span>
+            </label>
+          </div>
+        }
+
+        <!-- Configuración Vectorstore -->
+        <div class="md:col-span-2">
+          <h4 class="text-lg font-medium text-gray-900 mb-4 mt-6">Configuración de Vectorstore (Opcional)</h4>
+        </div>
+
+        <!-- Habilitar Vectorstore -->
+        <div class="md:col-span-2">
+          <label class="flex items-center">
+            <input
+              type="checkbox"
+              formControlName="vectorstoreEnabled"
+              (change)="onVectorstoreToggle()"
+              class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+            >
+            <span class="ml-2 text-sm text-gray-700">Habilitar Vectorstore</span>
+          </label>
+          <p class="text-xs text-gray-500 mt-1">Permite al chatbot acceder a documentos y bases de conocimiento</p>
+        </div>
+
+        @if (isVectorstoreEnabled()) {
+          <!-- Vector Size -->
+          <div>
+            <label for="vectorSize" class="block text-sm font-medium text-gray-700 mb-2">
+              Tamaño del Vector *
+            </label>
+            <input
+              type="number"
+              id="vectorSize"
+              formControlName="vectorSize"
+              min="1"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            >
+            @if (getFieldError('vectorSize')) {
+              <span class="text-red-500 text-sm mt-1">
+                {{ getFieldError('vectorSize') }}
+              </span>
+            }
+          </div>
+
+          <!-- Collection -->
+          <div>
+            <label for="collection" class="block text-sm font-medium text-gray-700 mb-2">
+              Colección *
+            </label>
+            <input
+              type="text"
+              id="collection"
+              formControlName="collection"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              placeholder="Ej: support_docs"
+            >
+            @if (getFieldError('collection')) {
+              <span class="text-red-500 text-sm mt-1">
+                {{ getFieldError('collection') }}
+              </span>
+            }
+          </div>
+        }
+
+        <!-- Estado -->
+        <div>
+          <label class="flex items-center">
+            <input
+              type="checkbox"
+              formControlName="active"
+              class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+            >
+            <span class="ml-2 text-sm text-gray-700">Chatbot Activo</span>
+          </label>
+        </div>
+
+      </div>
+
+      <!-- Botones del formulario -->
+      <div class="flex justify-end space-x-3 mt-8 pt-6 border-t border-gray-200">
+        <button
+          type="button"
+          (click)="closeCreateForm()"
+          class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          [disabled]="chatbotForm.invalid || isSubmitting"
+          class="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center gap-2"
+        >
+          @if (isSubmitting) {
+            <!-- Loading spinner -->
+            <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="m12 2v6l4-4zM6 8h6l-4 4z"></path>
+            </svg>
+            Creando...
+          } @else {
+            Crear Chatbot
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+}
+
+<!-- Componente de configuración de widgets -->
+<app-widget-config 
+  [chatbot]="selectedChatbot"
+  [isVisible]="showWidgetConfig">
+</app-widget-config>

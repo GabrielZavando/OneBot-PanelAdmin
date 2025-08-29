@@ -1,7 +1,7 @@
 <div class="dashboard-layout">
-	<app-header (toggleSidebar)="toggleSidebar()"></app-header>
+	<app-sidebar [open]="sidebarOpen"></app-sidebar>
 	<div class="main-content">
-		<app-sidebar [open]="sidebarOpen"></app-sidebar>
+		<app-header (toggleSidebar)="toggleSidebar()"></app-header>
 		<div class="content-area">
 			<!-- Aquí irá el contenido principal -->
 			<router-outlet></router-outlet>

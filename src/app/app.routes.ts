@@ -24,11 +24,11 @@ export const routes: Routes = [
 		canActivate: [authGuard],
 		children: [
 			{ path: '', redirectTo: 'home', pathMatch: 'full' },
-			{ path: 'home', loadComponent: () => import('./dashboard/pages/home/home.component').then(m => m.Home) },
-			{ path: 'chatbots', loadComponent: () => import('./dashboard/pages/chatbots/chatbots.component').then(m => m.Chatbots) },
-			{ path: 'knowledge', loadComponent: () => import('./dashboard/pages/knowledge/knowledge.component').then(m => m.Knowledge) },
-			{ path: 'analytics', loadComponent: () => import('./dashboard/pages/analytics/analytics.component').then(m => m.Analytics) },
-			{ path: 'settings', loadComponent: () => import('./dashboard/pages/settings/settings.component').then(m => m.Settings) }
+			{ path: 'home', loadComponent: () => import('./pages/home/home.component').then(m => m.Home) },
+			{ path: 'chatbots', loadComponent: () => import('./pages/chatbots/chatbots.component').then(m => m.Chatbots) },
+			{ path: 'knowledge', loadComponent: () => import('./pages/knowledge/knowledge.component').then(m => m.Knowledge) },
+			{ path: 'analytics', loadComponent: () => import('./pages/analytics/analytics.component').then(m => m.Analytics) },
+			{ path: 'settings', loadComponent: () => import('./pages/settings/settings.component').then(m => m.Settings) }
 		]
 	}
 ];

@@ -1,0 +1,577 @@
+@if (isVisible && chatbot) {
+  <div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg w-full max-w-6xl max-h-[90vh] overflow-hidden flex">
+      <!-- Panel de configuración -->
+      <div class="flex-1 overflow-y-auto">
+        <div class="p-6 border-b">
+          <div class="flex justify-between items-center">
+            <div>
+              <h2 class="text-2xl font-bold text-gray-900">Configurar Widget</h2>
+              <p class="text-gray-600">{{ chatbot.name }}</p>
+            </div>
+            <button 
+              (click)="onClose()"
+              class="text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        @if (isLoading) {
+          <div class="p-6 flex justify-center">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          </div>
+        } @else {
+          <form [formGroup]="widgetForm" (ngSubmit)="onSave()" class="p-6 space-y-8">
+            
+            <!-- Sección de Apariencia -->
+            <div class="bg-gray-50 p-6 rounded-lg">
+              <h3 class="text-lg font-semibold mb-4 text-gray-900">Apariencia</h3>
+              
+              <div class="grid grid-cols-2 gap-4">
+                <!-- Colores principales -->
+                <div>
+                  <label for="primaryColor" class="block text-sm font-medium text-gray-700 mb-1">Color Primario</label>
+                  <input
+                    type="color"
+                    id="primaryColor"
+                    formControlName="primaryColor"
+                    class="w-full h-10 border border-gray-300 rounded cursor-pointer"
+                  >
+                </div>
+
+                <div>
+                  <label for="secondaryColor" class="block text-sm font-medium text-gray-700 mb-1">Color Secundario</label>
+                  <input
+                    type="color"
+                    id="secondaryColor"
+                    formControlName="secondaryColor"
+                    class="w-full h-10 border border-gray-300 rounded cursor-pointer"
+                  >
+                </div>
+
+                <div>
+                  <label for="backgroundColor" class="block text-sm font-medium text-gray-700 mb-1">Color de Fondo</label>
+                  <input
+                    type="color"
+                    id="backgroundColor"
+                    formControlName="backgroundColor"
+                    class="w-full h-10 border border-gray-300 rounded cursor-pointer"
+                  >
+                </div>
+
+                <div>
+                  <label for="textColor" class="block text-sm font-medium text-gray-700 mb-1">Color de Texto</label>
+                  <input
+                    type="color"
+                    id="textColor"
+                    formControlName="textColor"
+                    class="w-full h-10 border border-gray-300 rounded cursor-pointer"
+                  >
+                </div>
+
+                <!-- Configuración de la burbuja -->
+                <div>
+                  <label for="bubbleBackgroundColor" class="block text-sm font-medium text-gray-700 mb-1">Color de Burbuja</label>
+                  <input
+                    type="color"
+                    id="bubbleBackgroundColor"
+                    formControlName="bubbleBackgroundColor"
+                    class="w-full h-10 border border-gray-300 rounded cursor-pointer"
+                  >
+                </div>
+
+                <div>
+                  <label for="bubbleIconColor" class="block text-sm font-medium text-gray-700 mb-1">Color del Ícono</label>
+                  <input
+                    type="color"
+                    id="bubbleIconColor"
+                    formControlName="bubbleIconColor"
+                    class="w-full h-10 border border-gray-300 rounded cursor-pointer"
+                  >
+                </div>
+
+                <!-- Tipografía -->
+                <div>
+                  <label for="fontFamily" class="block text-sm font-medium text-gray-700 mb-1">Fuente</label>
+                  <select
+                    id="fontFamily"
+                    formControlName="fontFamily"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  >
+                    @for (font of fontFamilies; track font.value) {
+                      <option [value]="font.value">{{ font.label }}</option>
+                    }
+                  </select>
+                </div>
+
+                <div>
+                  <label for="fontSize" class="block text-sm font-medium text-gray-700 mb-1">Tamaño de Fuente</label>
+                  <input
+                    type="number"
+                    id="fontSize"
+                    formControlName="fontSize"
+                    min="10"
+                    max="20"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  >
+                </div>
+
+                <!-- Bordes y formas -->
+                <div>
+                  <label for="borderRadius" class="block text-sm font-medium text-gray-700 mb-1">Borde Redondeado</label>
+                  <input
+                    type="range"
+                    id="borderRadius"
+                    formControlName="borderRadius"
+                    min="0"
+                    max="50"
+                    class="w-full"
+                  >
+                  <span class="text-sm text-gray-500">{{ widgetForm.get('borderRadius')?.value }}px</span>
+                </div>
+
+                <div>
+                  <label for="opacity" class="block text-sm font-medium text-gray-700 mb-1">Opacidad</label>
+                  <input
+                    type="range"
+                    id="opacity"
+                    formControlName="opacity"
+                    min="0.1"
+                    max="1"
+                    step="0.1"
+                    class="w-full"
+                  >
+                  <span class="text-sm text-gray-500">{{ (widgetForm.get('opacity')?.value * 100) | number:'1.0-0' }}%</span>
+                </div>
+              </div>
+
+              <!-- Opciones adicionales -->
+              <div class="mt-4 space-y-3">
+                <label class="flex items-center">
+                  <input
+                    type="checkbox"
+                    formControlName="bubbleShadow"
+                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  >
+                  <span class="ml-2 text-sm text-gray-700">Sombra en la burbuja</span>
+                </label>
+
+                <label class="flex items-center">
+                  <input
+                    type="checkbox"
+                    formControlName="hasGradient"
+                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  >
+                  <span class="ml-2 text-sm text-gray-700">Usar gradiente</span>
+                </label>
+
+                @if (hasGradient) {
+                  <div class="grid grid-cols-2 gap-4 mt-2">
+                    <div>
+                      <label for="gradientFrom" class="block text-sm font-medium text-gray-700 mb-1">Color Inicial</label>
+                      <input
+                        type="color"
+                        id="gradientFrom"
+                        formControlName="gradientFrom"
+                        class="w-full h-10 border border-gray-300 rounded cursor-pointer"
+                      >
+                    </div>
+                    <div>
+                      <label for="gradientTo" class="block text-sm font-medium text-gray-700 mb-1">Color Final</label>
+                      <input
+                        type="color"
+                        id="gradientTo"
+                        formControlName="gradientTo"
+                        class="w-full h-10 border border-gray-300 rounded cursor-pointer"
+                      >
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+
+            <!-- Sección de Posición -->
+            <div class="bg-gray-50 p-6 rounded-lg">
+              <h3 class="text-lg font-semibold mb-4 text-gray-900">Posición y Tamaño</h3>
+              
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label for="bubblePosition" class="block text-sm font-medium text-gray-700 mb-1">Posición de la Burbuja</label>
+                  <select
+                    id="bubblePosition"
+                    formControlName="bubblePosition"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  >
+                    @for (position of bubblePositions; track position.value) {
+                      <option [value]="position.value">{{ position.label }}</option>
+                    }
+                  </select>
+                </div>
+
+                <div>
+                  <label for="chatPosition" class="block text-sm font-medium text-gray-700 mb-1">Posición del Chat</label>
+                  <select
+                    id="chatPosition"
+                    formControlName="chatPosition"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  >
+                    @for (position of chatPositions; track position.value) {
+                      <option [value]="position.value">{{ position.label }}</option>
+                    }
+                  </select>
+                </div>
+
+                <div>
+                  <label for="bubbleSize" class="block text-sm font-medium text-gray-700 mb-1">Tamaño de Burbuja</label>
+                  <input
+                    type="range"
+                    id="bubbleSize"
+                    formControlName="bubbleSize"
+                    min="40"
+                    max="100"
+                    class="w-full"
+                  >
+                  <span class="text-sm text-gray-500">{{ widgetForm.get('bubbleSize')?.value }}px</span>
+                </div>
+
+                <div>
+                  <label for="bubbleMarginX" class="block text-sm font-medium text-gray-700 mb-1">Margen Horizontal</label>
+                  <input
+                    type="number"
+                    id="bubbleMarginX"
+                    formControlName="bubbleMarginX"
+                    min="0"
+                    max="100"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  >
+                </div>
+
+                <div>
+                  <label for="chatWidth" class="block text-sm font-medium text-gray-700 mb-1">Ancho del Chat</label>
+                  <input
+                    type="number"
+                    id="chatWidth"
+                    formControlName="chatWidth"
+                    min="300"
+                    max="800"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  >
+                </div>
+
+                <div>
+                  <label for="chatHeight" class="block text-sm font-medium text-gray-700 mb-1">Alto del Chat</label>
+                  <input
+                    type="number"
+                    id="chatHeight"
+                    formControlName="chatHeight"
+                    min="400"
+                    max="800"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Sección de Comportamiento -->
+            <div class="bg-gray-50 p-6 rounded-lg">
+              <h3 class="text-lg font-semibold mb-4 text-gray-900">Comportamiento</h3>
+              
+              <div class="space-y-4">
+                <label class="flex items-center">
+                  <input
+                    type="checkbox"
+                    formControlName="autoOpen"
+                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  >
+                  <span class="ml-2 text-sm text-gray-700">Abrir automáticamente</span>
+                </label>
+
+                @if (autoOpen) {
+                  <div>
+                    <label for="autoOpenDelay" class="block text-sm font-medium text-gray-700 mb-1">Retraso (segundos)</label>
+                    <input
+                      type="number"
+                      id="autoOpenDelay"
+                      formControlName="autoOpenDelay"
+                      min="0"
+                      max="60"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    >
+                  </div>
+                }
+
+                <label class="flex items-center">
+                  <input
+                    type="checkbox"
+                    formControlName="enableAnimations"
+                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  >
+                  <span class="ml-2 text-sm text-gray-700">Habilitar animaciones</span>
+                </label>
+
+                @if (enableAnimations) {
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <label for="animationType" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Animación</label>
+                      <select
+                        id="animationType"
+                        formControlName="animationType"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      >
+                        @for (animation of animationTypes; track animation.value) {
+                          <option [value]="animation.value">{{ animation.label }}</option>
+                        }
+                      </select>
+                    </div>
+
+                    <div>
+                      <label for="animationDuration" class="block text-sm font-medium text-gray-700 mb-1">Duración (ms)</label>
+                      <input
+                        type="number"
+                        id="animationDuration"
+                        formControlName="animationDuration"
+                        min="100"
+                        max="2000"
+                        step="100"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      >
+                    </div>
+                  </div>
+                }
+
+                <div class="grid grid-cols-2 gap-4">
+                  <label class="flex items-center">
+                    <input
+                      type="checkbox"
+                      formControlName="allowClose"
+                      class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    >
+                    <span class="ml-2 text-sm text-gray-700">Permitir cerrar</span>
+                  </label>
+
+                  <label class="flex items-center">
+                    <input
+                      type="checkbox"
+                      formControlName="allowMinimize"
+                      class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    >
+                    <span class="ml-2 text-sm text-gray-700">Permitir minimizar</span>
+                  </label>
+
+                  <label class="flex items-center">
+                    <input
+                      type="checkbox"
+                      formControlName="closeOnEscape"
+                      class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    >
+                    <span class="ml-2 text-sm text-gray-700">Cerrar con Escape</span>
+                  </label>
+
+                  <label class="flex items-center">
+                    <input
+                      type="checkbox"
+                      formControlName="rememberState"
+                      class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    >
+                    <span class="ml-2 text-sm text-gray-700">Recordar estado</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sección de Chat -->
+            <div class="bg-gray-50 p-6 rounded-lg">
+              <h3 class="text-lg font-semibold mb-4 text-gray-900">Configuración del Chat</h3>
+              
+              <div class="space-y-4">
+                <label class="flex items-center">
+                  <input
+                    type="checkbox"
+                    formControlName="showHeader"
+                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  >
+                  <span class="ml-2 text-sm text-gray-700">Mostrar encabezado</span>
+                </label>
+
+                @if (showHeader) {
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <label for="headerTitle" class="block text-sm font-medium text-gray-700 mb-1">Título</label>
+                      <input
+                        type="text"
+                        id="headerTitle"
+                        formControlName="headerTitle"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      >
+                    </div>
+
+                    <div>
+                      <label for="headerSubtitle" class="block text-sm font-medium text-gray-700 mb-1">Subtítulo</label>
+                      <input
+                        type="text"
+                        id="headerSubtitle"
+                        formControlName="headerSubtitle"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      >
+                    </div>
+                  </div>
+                }
+
+                <div>
+                  <label for="welcomeMessage" class="block text-sm font-medium text-gray-700 mb-1">Mensaje de Bienvenida</label>
+                  <textarea
+                    id="welcomeMessage"
+                    formControlName="welcomeMessage"
+                    rows="3"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  ></textarea>
+                </div>
+
+                <div>
+                  <label for="placeholderText" class="block text-sm font-medium text-gray-700 mb-1">Texto del Input</label>
+                  <input
+                    type="text"
+                    id="placeholderText"
+                    formControlName="placeholderText"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  >
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <label class="flex items-center">
+                    <input
+                      type="checkbox"
+                      formControlName="allowFileUpload"
+                      class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    >
+                    <span class="ml-2 text-sm text-gray-700">Permitir subir archivos</span>
+                  </label>
+
+                  <label class="flex items-center">
+                    <input
+                      type="checkbox"
+                      formControlName="showTypingIndicator"
+                      class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    >
+                    <span class="ml-2 text-sm text-gray-700">Indicador de escritura</span>
+                  </label>
+
+                  <label class="flex items-center">
+                    <input
+                      type="checkbox"
+                      formControlName="showTimestamps"
+                      class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    >
+                    <span class="ml-2 text-sm text-gray-700">Mostrar timestamps</span>
+                  </label>
+
+                  <label class="flex items-center">
+                    <input
+                      type="checkbox"
+                      formControlName="showPoweredBy"
+                      class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    >
+                    <span class="ml-2 text-sm text-gray-700">Mostrar "Powered by"</span>
+                  </label>
+                </div>
+
+                @if (allowFileUpload) {
+                  <div>
+                    <label for="maxFileSize" class="block text-sm font-medium text-gray-700 mb-1">Tamaño máximo de archivo (MB)</label>
+                    <input
+                      type="number"
+                      id="maxFileSize"
+                      formControlName="maxFileSize"
+                      min="1"
+                      max="50"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    >
+                  </div>
+                }
+              </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="flex justify-between items-center">
+              <div class="space-x-2">
+                <button
+                  type="button"
+                  (click)="onReset()"
+                  class="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Restablecer
+                </button>
+                <button
+                  type="button"
+                  (click)="openPreview()"
+                  class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                >
+                  Vista Previa
+                </button>
+              </div>
+              
+              <button
+                type="submit"
+                [disabled]="isSaving || !widgetForm.valid"
+                class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                @if (isSaving) {
+                  <span class="flex items-center">
+                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Guardando...
+                  </span>
+                } @else {
+                  Guardar Configuración
+                }
+              </button>
+            </div>
+          </form>
+        }
+      </div>
+
+      <!-- Panel de vista previa -->
+      <div class="w-96 bg-gray-100 border-l">
+        <div class="p-6 border-b bg-white">
+          <h3 class="text-lg font-semibold text-gray-900">Vista Previa</h3>
+          <p class="text-sm text-gray-600">Así se verá tu widget</p>
+        </div>
+        
+        <div class="p-6">
+          <!-- Vista previa del widget -->
+          <app-widget-preview 
+            [config]="previewConfig"
+            [isOpen]="showPreview">
+          </app-widget-preview>
+          
+          <div class="mt-4 text-center">
+            <button
+              (click)="togglePreview()"
+              class="px-4 py-2 bg-gray-600 text-white text-sm rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              {{ showPreview ? 'Cerrar Chat' : 'Abrir Chat' }}
+            </button>
+          </div>
+          
+          <!-- Código de embebido -->
+          <div class="bg-gray-900 rounded p-3 mb-4 mt-4">
+            <p class="text-xs text-gray-400 mb-2">Código para embebir:</p>
+            <code class="text-xs text-green-400 break-all">{{ embedCode }}</code>
+            <button
+              (click)="copyEmbedCode()"
+              class="mt-2 w-full px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors"
+            >
+              Copiar Código
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

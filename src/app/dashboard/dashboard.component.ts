@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Sidebar } from './components/sidebar/sidebar.component';
-import { Header } from './components/header/header.component';
+import { Sidebar } from './sidebar/sidebar.component';
+import { Header } from './header/header.component';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
