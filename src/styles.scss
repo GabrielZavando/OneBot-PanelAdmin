@@ -1,0 +1,16 @@
+// =========================
+// CSS Library - Main Entry Point
+// =========================
+// Arquitectura en 5 capas: config, foundation, layout, components y main.scss
+
+// 1. Config Layer - Tokens, breakpoints y mixins (sin generar CSS directo)
+@use './styles/config' as *;
+
+// 2. Foundation Layer - Estilos globales, resets, variables raíz y utilitarios
+@use './styles/foundation' as *;
+
+// 3. Layout Layer - Estructura visual: contenedores, secciones y grillas
+@use './styles/layout' as *;
+
+// 4. Components Layer - Bloques reutilizables y desacoplados
+@use './styles/components' as *;

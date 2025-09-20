@@ -1,11 +1,22 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-settings',
+  selector: 'app-settings-page',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './settings.component.html',
-  styleUrl: './settings.component.css'
+  imports: [],
+  template: `
+    <div class="settings-page">
+      <h1>Configuración</h1>
+      <p>Configuración del sistema y usuario</p>
+      <!-- TODO: Implementar configuración de usuario, sistema, etc. -->
+    </div>
+  `,
+  styles: [`
+    .settings-page {
+      padding: 2rem;
+    }
+  `]
 })
-export class Settings {}
+export class SettingsPageComponent {
+
+}

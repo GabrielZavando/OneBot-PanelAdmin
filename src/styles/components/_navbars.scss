@@ -1,0 +1,25 @@
+// Importación de variables globales
+@use '../foundation' as *;
+@use '../config' as *;
+
+// =========================
+// Navbars Component
+// =========================
+// Bloques funcionales para elementos de navegación y barras de navegación
+// Respeta el contrato semántico de config/ para coherencia visual
+
+// =========================
+// Mixin Base para Navbar
+// =========================
+
+@mixin navbar-base {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-4) 0;
+  position: relative;
+  z-index: var(--z-sticky);
+}
+
+// =========================
+// Navbar Principal
+// =========================

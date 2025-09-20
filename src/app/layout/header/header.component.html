@@ -1,0 +1,20 @@
+<header role="banner">
+  <div>
+    <div>
+      <app-logo></app-logo>
+      <h1>OneBot Admin</h1>
+    </div>
+    <div>
+      <app-search-bar></app-search-bar>
+    </div>
+    <div>
+      <nav aria-label="Navegación principal">
+        <app-theme-toggle></app-theme-toggle>
+        <app-user-avatar></app-user-avatar>
+        @if (isLoading$ | async) {
+          <span aria-label="Cargando...">⏳</span>
+        }
+      </nav>
+    </div>
+  </div>
+</header>

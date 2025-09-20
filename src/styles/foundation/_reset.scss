@@ -1,0 +1,25 @@
+// =========================
+// Reset - Normalización básica
+// =========================
+// Reset mínimo para eliminar inconsistencias entre navegadores
+
+/* Reset box model */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Document base */
+html {
+  font-size: 100%;
+  scroll-behavior: smooth;
+}
+
+/* Body base */
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+}

@@ -1,14 +1,19 @@
-export const environment = {
+import { EnvironmentConfig } from './environment.interface';
+
+/**
+ * Configuración de entorno para desarrollo
+ * Estos valores son para pruebas locales y desarrollo
+ */
+export const environment: EnvironmentConfig = {
   production: false,
   firebase: {
+    // Configuración Firebase para desarrollo
     apiKey: "AIzaSyBCAhxBCoc1_OXfpsddBmbfx-EZpM4rwek",
-    authDomain: "onebot-b04e2.firebaseapp.com",
-    projectId: "onebot-b04e2",
-    storageBucket: "onebot-b04e2.firebasestorage.app",
+    authDomain: "onebot-dev.firebaseapp.com",
+    projectId: "onebot-dev",
+    storageBucket: "onebot-dev.appspot.com",
     messagingSenderId: "371109272552",
     appId: "1:371109272552:web:f5ccdfca754e3b144ca25d"
   },
-  // URL del backend que verificará el ID token y registrará al usuario en la base de datos.
-  // Asumo localhost:3000 por defecto; cámbialo si tu API está en otra URL.
   apiBaseUrl: 'http://localhost:3000/api/v1'
 };

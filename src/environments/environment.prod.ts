@@ -1,13 +1,21 @@
-export const environment = {
+import { EnvironmentConfig } from './environment.interface';
+
+/**
+ * Configuración de entorno para producción
+ * ⚠️ IMPORTANTE: Estos valores deben ser reemplazados por CI/CD durante el build
+ * NUNCA commitear credenciales reales de producción al repositorio
+ */
+export const environment: EnvironmentConfig = {
   production: true,
   firebase: {
-    apiKey: "AIzaSyBCAhxBCoc1_OXfpsddBmbfx-EZpM4rwek",
-    authDomain: "onebot-b04e2.firebaseapp.com",
-    projectId: "onebot-b04e2",
-    storageBucket: "onebot-b04e2.firebasestorage.app",
-    messagingSenderId: "371109272552",
-    appId: "1:371109272552:web:f5ccdfca754e3b144ca25d"
+    // Configuración Firebase para producción
+    // Estos valores serán reemplazados por el pipeline de CI/CD usando scripts/generate-env.js
+    apiKey: "PROD_FIREBASE_API_KEY",
+    authDomain: "onebot-prod.firebaseapp.com", 
+    projectId: "onebot-prod",
+    storageBucket: "onebot-prod.appspot.com",
+    messagingSenderId: "PROD_MESSAGING_SENDER_ID",
+    appId: "PROD_FIREBASE_APP_ID"
   },
-  // Cambia esto por la URL real de tu API de producción
-  apiBaseUrl: 'https://api.onebot.example'
+  apiBaseUrl: 'https://api.onebot.app/api/v1'
 };

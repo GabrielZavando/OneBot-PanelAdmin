@@ -1,0 +1,145 @@
+<div>
+  <div>
+    <div>
+      <div>
+        <h2>OneBot</h2>
+      </div>
+      <h1>Iniciar Sesión</h1>
+      <p>Accede a tu panel de administración</p>
+    </div>
+
+    @if (state.error) {
+      <div 
+        role="alert"
+        aria-live="polite"
+      >
+        <div>
+          <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+          <span>{{ state.error }}</span>
+          <button 
+            type="button" 
+            (click)="clearError()"
+            aria-label="Cerrar error"
+          >
+            <fa-icon [icon]="faTimes"></fa-icon>
+          </button>
+        </div>
+      </div>
+    }
+
+    <form 
+      [formGroup]="loginForm" 
+      (ngSubmit)="onSubmit()"
+      (keydown)="onKeyDown($event)"
+      [class.form-disabled]="state.isLoading"
+      novalidate
+    >
+      <div>
+        <label for="email">
+          Correo Electrónico
+          <span>*</span>
+        </label>
+        <div>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            [class.input-error]="hasFieldError('email')"
+            [attr.aria-invalid]="hasFieldError('email')"
+            [attr.aria-describedby]="hasFieldError('email') ? 'email-error' : null"
+            placeholder="tu@email.com"
+            autocomplete="email"
+          />
+          <fa-icon [icon]="faEnvelope"></fa-icon>
+        </div>
+        @if (hasFieldError('email')) {
+          <div
+            id="email-error"
+            role="alert"
+          >
+            {{ getFieldError('email') }}
+          </div>
+        }
+      </div>
+
+      <div>
+        <label for="password">
+          Contraseña
+          <span>*</span>
+        </label>
+        <div>
+          <input
+            id="password"
+            [type]="state.showPassword ? 'text' : 'password'"
+            formControlName="password"
+            [class.input-error]="hasFieldError('password')"
+            [attr.aria-invalid]="hasFieldError('password')"
+            [attr.aria-describedby]="hasFieldError('password') ? 'password-error' : null"
+            placeholder="Tu contraseña"
+            autocomplete="current-password"
+          />
+          <button
+            type="button"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="state.showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+            [disabled]="state.isLoading"
+          >
+            <fa-icon [icon]="state.showPassword ? faEyeSlash : faEye"></fa-icon>
+          </button>
+        </div>
+        @if (hasFieldError('password')) {
+          <div
+            id="password-error"
+            role="alert"
+          >
+            {{ getFieldError('password') }}
+          </div>
+        }
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="!isFormValid || state.isLoading"
+        [attr.aria-busy]="state.isLoading"
+      >
+        @if (!state.isLoading) {
+          <span>
+            Iniciar Sesión
+          </span>
+        }
+        @if (state.isLoading) {
+          <span>
+            <span></span>
+            Iniciando sesión...
+          </span>
+        }
+      </button>
+    </form>
+
+    <div>
+      <p>
+        <a href="#" (click)="onForgotPassword($event)">
+          ¿Olvidaste tu contraseña?
+        </a>
+      </p>
+      <p>
+        ¿No tienes cuenta?
+        <a href="#" (click)="onSignUp($event)">
+          Crear cuenta
+        </a>
+      </p>
+      <p>
+        ¿Problemas para acceder?
+        <a href="mailto:soporte@onebot.com">
+          Contacta soporte
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>

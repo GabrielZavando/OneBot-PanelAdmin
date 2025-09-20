@@ -6,7 +6,8 @@ describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [provideZonelessChangeDetection()]
+      // Note: tests bootstrap Zone.js via src/test.ts. Don't provide zoneless change detection here.
+      providers: []
     }).compileComponents();
   });
 

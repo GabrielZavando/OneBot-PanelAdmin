@@ -1,0 +1,87 @@
+// Importación de globals
+
+// =========================
+// Sections - Layout Layer
+// =========================
+// Áreas composicionales subordinadas dentro de los contenedores
+// Define secciones semánticas y su comportamiento visual
+
+@use '../config' as *;
+
+// =========================
+// Elementos Semánticos Base
+// =========================
+
+// Body principal
+body {
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  line-height: var(--line-height-normal);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+// Main content area
+main {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  min-height: 0; // Para flex-shrink
+}
+
+// Header semántico
+header {
+  position: relative;
+  width: 100%;
+  z-index: var(--z-sticky);
+}
+
+// Footer semántico
+footer {
+  position: relative;
+  width: 100%;
+  margin-top: auto;
+}
+
+// Aside semántico
+aside {
+  position: relative;
+  width: 100%;
+}
+
+// =========================
+// Secciones de Contenido
+// =========================
+
+// Sección base
+section {
+  position: relative;
+  width: 100%;
+}
+
+// =========================
+// Secciones Específicas
+// =========================
+
+// Hero section
+
+// =========================
+// Áreas de Navegación
+// =========================
+
+// Navigation area
+nav {
+  position: relative;
+  
+  &.nav--primary {
+    z-index: var(--z-dropdown);
+  }
+  
+  &.nav--secondary {
+    z-index: calc(var(--z-dropdown) - 1);
+  }
+}
+

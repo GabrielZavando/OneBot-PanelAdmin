@@ -1,0 +1,62 @@
+/* Layout Shell - Contenedor principal - Chroma Dashboard */
+:host {
+  display: grid !important;
+  grid-template-columns: 250px 1fr !important;
+  grid-template-rows: 64px 1fr !important;
+  min-height: 100vh !important;
+  background-color: var(--primary-medium) !important;
+  overflow: hidden !important;
+  width: 100% !important;
+  height: 100vh !important;
+}
+
+/* Header */
+:host ::ng-deep app-header {
+  grid-column: 1 / -1 !important;
+  grid-row: 1 !important;
+  z-index: 100 !important;
+  background-color: var(--primary-dark) !important;
+  border-bottom: 1px solid var(--border-default) !important;
+  height: 64px !important;
+  width: 100% !important;
+}
+
+/* Sidebar */
+:host ::ng-deep app-sidebar {
+  grid-column: 1 !important;
+  grid-row: 2 !important;
+  z-index: 90 !important;
+  background-color: var(--primary-dark) !important;
+  width: 250px !important;
+  height: calc(100vh - 64px) !important;
+  overflow-y: auto !important;
+  border-right: 1px solid var(--border-default) !important;
+}
+
+/* Main */
+:host ::ng-deep app-main {
+  grid-column: 2 !important;
+  grid-row: 2 !important;
+  background-color: var(--primary-medium) !important;
+  overflow-y: auto !important;
+  width: 100% !important;
+  height: calc(100vh - 64px) !important;
+  padding: 24px !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  :host {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 64px 1fr !important;
+  }
+
+  :host ::ng-deep app-sidebar {
+    display: none !important;
+  }
+
+  :host ::ng-deep app-main {
+    grid-column: 1 !important;
+    padding: 16px !important;
+  }
+}

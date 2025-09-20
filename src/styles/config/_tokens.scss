@@ -1,0 +1,110 @@
+// =========================
+// Design Tokens - Fuente única de la verdad
+// =========================
+// Este es el ÚNICO archivo que debes cambiar para personalizar todo el sistema
+
+// =========================
+// TOKENS ORGANIZADOS EN MAPAS
+// =========================
+
+// Colores tema claro
+$colors-light: (
+  // Fondos
+  body: #f9fafb,
+  surface: #ffffff,
+  surface-secondary: #f3f4f6,
+  
+  // Textos
+  text: #111827,
+  text-secondary: #6b7280,
+  text-muted: #9ca3af,
+  
+  // Bordes
+  border: #e5e7eb,
+  border-secondary: #f3f4f6,
+  
+  // Marca
+  primary: #2066f6,
+  secondary: #10b981,
+  
+  // Botones
+  btn-primary-bg: #2066f6,
+  btn-primary-text: #ffffff,
+  btn-primary-hover: #1d56d6,
+  btn-secondary-bg: transparent,
+  btn-secondary-text: #2066f6,
+  btn-secondary-border: #2066f6,
+  btn-secondary-hover: #f0f9ff,
+  
+  // Estados
+  success: #10b981,
+  error: #ef4444,
+  warning: #f59e0b,
+  info: #3b82f6
+) !default;
+
+// Colores tema oscuro
+$colors-dark: (
+  // Fondos
+  body: #111827,
+  surface: #1f2937,
+  surface-secondary: #374151,
+  
+  // Textos
+  text: #f9fafb,
+  text-secondary: #d1d5db,
+  text-muted: #9ca3af,
+  
+  // Bordes
+  border: #374151,
+  border-secondary: #4b5563,
+  
+  // Marca (mismos que light)
+  primary: #2066f6,
+  secondary: #10b981,
+  
+  // Botones (mismos que light)
+  btn-primary-bg: #2066f6,
+  btn-primary-text: #ffffff,
+  btn-primary-hover: #1d56d6,
+  btn-secondary-bg: transparent,
+  btn-secondary-text: #2066f6,
+  btn-secondary-border: #2066f6,
+  btn-secondary-hover: #f0f9ff,
+  
+  // Estados (mismos que light)
+  success: #10b981,
+  error: #ef4444,
+  warning: #f59e0b,
+  info: #3b82f6
+) !default;
+
+// Espaciado
+$spacing: (
+  xs: 0.25rem,    // 4px
+  sm: 0.5rem,     // 8px
+  md: 1rem,       // 16px
+  lg: 1.5rem,     // 24px
+  xl: 2rem,       // 32px
+  2xl: 3rem       // 48px
+) !default;
+
+// Padding para componentes
+$padding: (
+  btn: 0.75rem 1.5rem,
+  btn-sm: 0.5rem 1rem,
+  btn-lg: 1rem 2rem,
+  card: 1.5rem,
+  section: 2rem,
+  container: 1rem
+) !default;
+
+// Mapa principal de tokens
+$tokens: (
+  colors: (
+    light: $colors-light,
+    dark: $colors-dark
+  ),
+  spacing: $spacing,
+  padding: $padding
+) !default;

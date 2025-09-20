@@ -1,0 +1,157 @@
+// =========================
+// Buttons Component
+// =========================
+// Bloques funcionales reutilizables para elementos de botón
+// Respeta el contrato semántico de config/ para coherencia visual
+
+@use '../config' as *;
+
+// =========================
+// Mixin Base para Botones
+// =========================
+
+@mixin btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  text-align: center;
+  border: 1px solid transparent;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  outline: none;
+
+  // Estados de interacción
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  &:disabled,
+  &.btn--disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+// Mixin para tamaños de botón
+@mixin btn-size($size) {
+  @if $size =='xs' {
+    padding: var(--spacing-1) var(--spacing-3);
+    font-size: var(--font-size-xs);
+    border-radius: var(--radius-sm);
+    min-height: 28px;
+  }
+
+  @else if $size =='sm' {
+    padding: var(--spacing-2) var(--spacing-4);
+    font-size: var(--font-size-sm);
+    border-radius: var(--radius-base);
+    min-height: 32px;
+  }
+
+  @else if $size =='md' {
+    padding: var(--spacing-3) var(--spacing-5);
+    font-size: var(--font-size-base);
+    border-radius: var(--radius-md);
+    min-height: 40px;
+  }
+
+  @else if $size =='lg' {
+    padding: var(--spacing-4) var(--spacing-6);
+    font-size: var(--font-size-lg);
+    border-radius: var(--radius-lg);
+    min-height: 48px;
+  }
+
+  @else if $size =='xl' {
+    padding: var(--spacing-5) var(--spacing-8);
+    font-size: var(--font-size-xl);
+    border-radius: var(--radius-xl);
+    min-height: 56px;
+  }
+}
+
+// Mixin para variantes de botón
+@mixin btn-variant($variant) {
+  @if $variant =='primary' {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-primary-dark);
+      border-color: var(--color-primary-dark);
+    }
+
+    &:active {
+      transform: translateY(1px);
+    }
+  }
+
+  @else if $variant =='secondary' {
+    background-color: var(--color-gray-100);
+    color: var(--color-text-primary);
+    border-color: var(--color-border);
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-gray-200);
+      border-color: var(--color-gray-300);
+    }
+  }
+
+  @else if $variant =='outline' {
+    background-color: transparent;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+    }
+  }
+
+  @else if $variant =='ghost' {
+    background-color: transparent;
+    color: var(--color-primary);
+    border-color: transparent;
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-primary-pale);
+    }
+  }
+
+  @else if $variant =='danger' {
+    background-color: var(--color-danger);
+    color: var(--color-white);
+    border-color: var(--color-danger);
+
+    &:hover:not(:disabled) {
+      background-color: #{color.adjust(#ff6b81, $lightness: -10%)};
+      border-color: #{color.adjust(#ff6b81, $lightness: -10%)};
+    }
+  }
+
+  @else if $variant =='success' {
+    background-color: var(--color-secondary);
+    color: var(--color-white);
+    border-color: var(--color-secondary);
+
+    &:hover:not(:disabled) {
+      background-color: #{color.adjust(#41e6b3, $lightness: -10%)};
+      border-color: #{color.adjust(#41e6b3, $lightness: -10%)};
+    }
+  }
+}
+
+// =========================
+// Clase Base del Botón
+// =========================
+

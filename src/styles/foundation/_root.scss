@@ -1,0 +1,81 @@
+// =========================
+// Root - Variables CSS globales con soporte para temas
+// =========================
+// Sistema de temas usando custom properties y data attributes
+
+@use '../config' as *;
+
+:root {
+  /* Colores de marca */
+  --color-primary: #{color(primary)};
+  --color-secondary: #{color(secondary)};
+  
+  /* Espaciado */
+  --space-xs: #{space(xs)};
+  --space-sm: #{space(sm)};
+  --space-md: #{space(md)};
+  --space-lg: #{space(lg)};
+  --space-xl: #{space(xl)};
+  --space-2xl: #{space(2xl)};
+  
+  /* Padding de componentes */
+  --padding-btn: #{padding(btn)};
+  --padding-btn-sm: #{padding(btn-sm)};
+  --padding-btn-lg: #{padding(btn-lg)};
+  --padding-card: #{padding(card)};
+  --padding-section: #{padding(section)};
+  --padding-container: #{padding(container)};
+  
+  /* Fuentes */
+  --font-primary: 'Open Sans', system-ui, sans-serif;
+  --font-headings: 'Montserrat', system-ui, sans-serif;
+}
+
+/* Tema claro (por defecto) */
+:root,
+:root[data-theme="light"] {
+  --color-body: #{color(body)};
+  --color-surface: #{color(surface)};
+  --color-surface-secondary: #{color(surface-secondary)};
+  --color-text: #{color(text)};
+  --color-text-secondary: #{color(text-secondary)};
+  --color-text-muted: #{color(text-muted)};
+  --color-border: #{color(border)};
+  --color-border-secondary: #{color(border-secondary)};
+  
+  /* Botones tema claro */
+  --btn-primary-bg: #{color(btn-primary-bg)};
+  --btn-primary-text: #{color(btn-primary-text)};
+  --btn-primary-hover: #{color(btn-primary-hover)};
+  --btn-secondary-bg: #{color(btn-secondary-bg)};
+  --btn-secondary-text: #{color(btn-secondary-text)};
+  --btn-secondary-border: #{color(btn-secondary-border)};
+  --btn-secondary-hover: #{color(btn-secondary-hover)};
+  
+  /* Estados */
+  --color-success: #{color(success)};
+  --color-error: #{color(error)};
+  --color-warning: #{color(warning)};
+  --color-info: #{color(info)};
+}
+
+/* Tema oscuro */
+:root[data-theme="dark"] {
+  --color-body: #{color(body, dark)};
+  --color-surface: #{color(surface, dark)};
+  --color-surface-secondary: #{color(surface-secondary, dark)};
+  --color-text: #{color(text, dark)};
+  --color-text-secondary: #{color(text-secondary, dark)};
+  --color-text-muted: #{color(text-muted, dark)};
+  --color-border: #{color(border, dark)};
+  --color-border-secondary: #{color(border-secondary, dark)};
+  
+  /* Botones tema oscuro (mismos valores) */
+  --btn-primary-bg: #{color(btn-primary-bg, dark)};
+  --btn-primary-text: #{color(btn-primary-text, dark)};
+  --btn-primary-hover: #{color(btn-primary-hover, dark)};
+  --btn-secondary-bg: #{color(btn-secondary-bg, dark)};
+  --btn-secondary-text: #{color(btn-secondary-text, dark)};
+  --btn-secondary-border: #{color(btn-secondary-border, dark)};
+  --btn-secondary-hover: #{color(btn-secondary-hover, dark)};
+}

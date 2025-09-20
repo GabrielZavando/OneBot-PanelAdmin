@@ -1,0 +1,42 @@
+// =========================
+// Containers - Layout Layer
+// =========================
+// Infraestructura semántica para secciones principales como header, main, aside y footer
+// Utiliza tokens y mixins de config/ para coherencia semántica y visual
+
+@use '../config' as *;
+
+// =========================
+// Contenedores Base
+// =========================
+
+// Contenedor principal del sitio
+.site-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-left: var(--spacing-4);
+  padding-right: var(--spacing-4);
+
+  @media (min-width: 640px) {
+    padding-left: var(--spacing-6);
+    padding-right: var(--spacing-6);
+  }
+
+  @media (min-width: 1024px) {
+    padding-left: var(--spacing-8);
+    padding-right: var(--spacing-8);
+  }
+}
+
+// =========================
+// Contenedores Semánticos Principales
+// =========================
+
+// Header container
+.header-container {
+  width: 100%;
+  position: relative;
+  z-index: var(--z-sticky);
+
+}

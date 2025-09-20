@@ -1,0 +1,27 @@
+<main role="main">
+  @if (breadcrumbs.length > 0) {
+    <!-- Área para breadcrumbs - placeholder -->
+    <div>
+      <nav aria-label="Navegación de migas de pan">
+        <ol>
+          <li *ngFor="let crumb of breadcrumbs; let isLast = last">
+            @if (isLast) {
+              <span>{{ crumb }}</span>
+            }
+            @if (!isLast) {
+              <a href="#">{{ crumb }}</a>
+            }
+            @if (!isLast) {
+              <span>/</span>
+            }
+          </li>
+        </ol>
+      </nav>
+    </div>
+  }
+
+  <!-- Contenedor del contenido de la página -->
+  <div>
+    <ng-content></ng-content>
+  </div>
+</main>

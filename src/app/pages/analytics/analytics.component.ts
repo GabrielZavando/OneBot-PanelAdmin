@@ -1,11 +1,22 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-analytics',
+  selector: 'app-analytics-page',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './analytics.component.html',
-  styleUrl: './analytics.component.css'
+  imports: [],
+  template: `
+    <div class="analytics-page">
+      <h1>Analytics</h1>
+      <p>Análisis y estadísticas del sistema</p>
+      <!-- TODO: Implementar analytics con gráficos y reportes -->
+    </div>
+  `,
+  styles: [`
+    .analytics-page {
+      padding: 2rem;
+    }
+  `]
 })
-export class Analytics {}
+export class AnalyticsPageComponent {
+
+}

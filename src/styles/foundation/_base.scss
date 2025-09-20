@@ -1,0 +1,47 @@
+// =========================
+// Base - Estilos base y tipografías
+// =========================
+// Importación de fuentes y aplicación de estilos base a elementos HTML
+
+@use '../config' as *;
+
+/* Importación de fuentes desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
+
+/* Variables de fuente basadas en tokens */
+html {
+  font-family: var(--font-primary);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Body hereda del html */
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+/* Tipografía para headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headings);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+/* Estilos base para texto */
+p {
+  margin-bottom: var(--spacing-md);
+}
+
+/* Enlaces base */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,85 @@
+// =========================
+// Functions - API para consumir tokens
+// =========================
+// Funciones simples para acceder a los tokens sin exponer su estructura
+
+@use 'sass:map';
+@use 'tokens' as tokens;
+
+// =========================
+// Función principal para obtener tokens
+// =========================
+
+/// Obtiene un valor del mapa de tokens
+/// @param {String} $category - Categoría del token (colors, spacing, padding)
+/// @param {String} $theme - Para colores: tema (light, dark). Para otros: null
+/// @return {Map|Value} Mapa o valor del token
+@function token($category, $theme: null) {
+  $main-tokens: tokens.$tokens;
+  
+  @if not map.has-key($main-tokens, $category) {
+    @error "La categoría `#{$category}` no existe en los tokens.";
+  }
+  
+  $category-tokens: map.get($main-tokens, $category);
+  
+  // Si es categoría colors, necesita tema
+  @if $category == 'colors' {
+    @if $theme == null {
+      @error "Para la categoría 'colors' debes especificar un tema (light o dark).";
+    }
+    
+    @if not map.has-key($category-tokens, $theme) {
+      @error "El tema `#{$theme}` no existe en colors.";
+    }
+    
+    @return map.get($category-tokens, $theme);
+  }
+  
+  // Para otras categorías, devuelve directamente
+  @return $category-tokens;
+}
+
+// =========================
+// Funciones específicas
+// =========================
+
+/// Devuelve un color desde el mapa de tokens
+/// @param {String} $name - Nombre del color (ej. "primary", "surface")
+/// @param {String} $theme - Tema visual ("light" por defecto, o "dark")
+/// @return {Color} Valor del color correspondiente
+@function color($name, $theme: light) {
+  $colors: token(colors, $theme);
+
+  @if map.has-key($colors, $name) {
+    @return map.get($colors, $name);
+  } @else {
+    @error "El color `#{$name}` no existe en el tema `#{$theme}`.";
+  }
+}
+
+/// Obtiene un valor de espaciado
+/// @param {String} $size - Tamaño (xs, sm, md, lg, xl, 2xl)
+/// @return {Length} Valor de espaciado
+@function space($size) {
+  $spacing: token(spacing);
+  
+  @if map.has-key($spacing, $size) {
+    @return map.get($spacing, $size);
+  } @else {
+    @error "El espaciado `#{$size}` no existe.";
+  }
+}
+
+/// Obtiene padding para componentes específicos
+/// @param {String} $component - Componente (btn, btn-sm, btn-lg, card, section, container)
+/// @return {Length} Valor de padding
+@function padding($component) {
+  $paddings: token(padding);
+  
+  @if map.has-key($paddings, $component) {
+    @return map.get($paddings, $component);
+  } @else {
+    @error "El padding `#{$component}` no existe.";
+  }
+}

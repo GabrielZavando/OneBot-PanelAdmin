@@ -1,0 +1,12 @@
+// =========================
+// Layout Layer - Index
+// =========================
+// Esta capa define la macroestructura visual del sistema
+// Organiza la jerarquía y disposición del contenido en la interfaz
+// Utiliza tokens y mixins de config/ para coherencia semántica y visual
+
+@use '../config' as *;
+
+@forward 'containers';
+@forward 'sections';
+@forward 'grids';

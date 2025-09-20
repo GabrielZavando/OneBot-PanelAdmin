@@ -1,0 +1,12 @@
+// =========================
+// Components Layer - Index
+// =========================
+// Esta capa reúne bloques funcionales reutilizables y visualmente desacoplados
+// Cada componente respeta el contrato semántico de config/ para coherencia visual
+
+@use '../config' as *;
+
+@forward 'buttons';
+@forward 'cards';
+@forward 'navbars';
+@forward 'forms';

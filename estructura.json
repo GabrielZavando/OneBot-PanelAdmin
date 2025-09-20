@@ -1,0 +1,61 @@
+{
+  "src": {
+    "assets": {
+      "icons": {},
+      "images": {},
+      "styles": {}
+    },
+    "app": {
+      "core": {
+        "config": {},
+        "guards": {},
+        "interceptors": {},
+        "models": {},
+        "services": {}
+      },
+      "layout": {
+        "header": {},
+        "sidebar": {},
+        "main": {}
+      },
+      "components": {
+        "logo": {},
+        "user-avatar": {},
+        "search-bar": {},
+        "theme-toggle": {},
+        "card": {},
+        "table": {},
+        "empty-state": {},
+        "confirm-dialog": {}
+      },
+      "pages": {
+        "login": {},
+        "home": {},
+        "bots": {
+          "bots-list": {},
+          "bot-create": {},
+          "bot-edit": {},
+          "bot-detail": {}
+        },
+        "profiles": {
+          "llm-profiles": {},
+          "llm-profile-edit": {},
+          "vectorstore-profiles": {},
+          "vectorstore-profile-edit": {},
+          "ui-profiles": {},
+          "ui-profile-edit": {}
+        },
+        "knowledge": {
+          "sources": {},
+          "source-upload": {}
+        },
+        "analytics": {
+          "analytics-overview": {},
+          "analytics-bot": {},
+          "analytics-reports": {}
+        },
+        "settings": {}
+      }
+    }
+  }
+}

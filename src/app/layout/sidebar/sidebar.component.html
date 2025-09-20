@@ -1,0 +1,52 @@
+<aside [class.collapsed]="isCollapsed" role="navigation" aria-label="Menú principal">
+  <div>
+    <div>
+      <h2>OneBot</h2>
+    </div>
+    <button
+      type="button"
+      (click)="toggleCollapse()"
+      aria-label="Colapsar menú"
+    >
+      <span>{{ isCollapsed ? '→' : '←' }}</span>
+    </button>
+  </div>
+
+  <nav>
+    @if (menuItems$ | async; as menuItems) {
+      <ul>
+        <li *ngFor="let item of menuItems">
+          <a
+            [routerLink]="item.path"
+            routerLinkActive="active"
+            (click)="onItemClick()"
+            [attr.aria-label]="item.label"
+          >
+            @if (item.icon) {
+              <span>{{ item.icon }}</span>
+            }
+            <span [class.hidden]="isCollapsed">{{ item.label }}</span>
+          </a>
+          <!-- Soporte para sub-menús si hay children -->
+          @if (item.children && !isCollapsed) {
+            <ul>
+              <li *ngFor="let child of item.children">
+                <a
+                  [routerLink]="child.path"
+                  routerLinkActive="active"
+                  (click)="onItemClick()"
+                  [attr.aria-label]="child.label"
+                >
+                  @if (child.icon) {
+                    <span>{{ child.icon }}</span>
+                  }
+                  <span>{{ child.label }}</span>
+                </a>
+              </li>
+            </ul>
+          }
+        </li>
+      </ul>
+    }
+  </nav>
+</aside>

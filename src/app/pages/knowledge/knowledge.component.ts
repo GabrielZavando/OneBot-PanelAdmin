@@ -1,11 +1,22 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-knowledge',
+  selector: 'app-knowledge-page',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './knowledge.component.html',
-  styleUrl: './knowledge.component.css'
+  imports: [],
+  template: `
+    <div class="knowledge-page">
+      <h1>Base de Conocimiento</h1>
+      <p>Gestión de fuentes y conocimiento del sistema</p>
+      <!-- TODO: Implementar gestión de fuentes de conocimiento -->
+    </div>
+  `,
+  styles: [`
+    .knowledge-page {
+      padding: 2rem;
+    }
+  `]
 })
-export class Knowledge {}
+export class KnowledgePageComponent {
+
+}
